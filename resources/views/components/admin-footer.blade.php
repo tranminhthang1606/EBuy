@@ -28,3 +28,24 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function(f){
+        $('#formSubmit').on('submit',(function(e){
+            if($(this).parsley().validate()) {
+            e.preventDefault();
+            var formData=new FormData(this);
+            $.ajax({
+                url: $(this).attr('action'),
+                type: "POST",
+                data: formData,
+                cache:false,
+                contentType:false,
+                processData:false,
+                success: function(response){
+                    console.log(response);
+                }
+            })
+        }
+        }))
+    })
+</script>
