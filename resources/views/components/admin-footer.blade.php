@@ -10,6 +10,7 @@
 <script src="{{asset('assets/plugins/chartjs/js/Chart.extension.js')}}"></script>
 <script src="{{asset('assets/js/index.js')}}"></script>
 <script src="https://developercodez.com/developerCorner/parsley/parsley.min.js"></script>
+<script src="{{asset('snackbar/dist/js-snackbar.js')}}"></script>
 <!--app JS-->
 <script src="{{asset('assets/js/app.js')}}"></script>
 <script>
@@ -34,6 +35,9 @@
             if($(this).parsley().validate()) {
             e.preventDefault();
             var formData=new FormData(this);
+            var loadingBtn = '<button class="btn btn-primary" type="button" disabled> <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="visually-hidden">Loading...</span></button>'
+            var submitBtn = '<input type="submit" id="submitButton" class="btn btn-primary px-4" value="Save Changes" />'
+            $('#submitButton').html(loadingBtn);
             $.ajax({
                 url: $(this).attr('action'),
                 type: "POST",
@@ -42,10 +46,25 @@
                 contentType:false,
                 processData:false,
                 success: function(response){
-                    console.log(response);
+                    if(response.status == "Success"){
+                       
+                        showAlert(response.status,response.message)
+                        $('#submitButton').html(submitBtn);
+                    }else{
+                        showAlert(response.status,response.message)
+                        $('#submitButton').html(submitBtn);
+                    }
                 }
             })
         }
         }))
     })
+
+    function showAlert(status,message){
+        SnackBar({
+             status:status,
+            message:message,
+            position:"br"                        
+        })
+    }
 </script>

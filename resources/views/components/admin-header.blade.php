@@ -23,5 +23,6 @@
     <link rel="stylesheet" href="{{asset('assets/css/semi-dark.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/css/header-colors.css')}}" />
     <link rel="stylesheet" href="https://developercodez.com/developerCorner/parsley/parsley.css" >
+    <link rel="stylesheet" href="{{asset('snackbar/dist/js-snackbar.css')}}">
     <title>Rocker - Bootstrap 5 Admin Dashboard Template</title>
 </head>
