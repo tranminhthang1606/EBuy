@@ -127,7 +127,7 @@
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             <input type="text" class="form-control" name="name"
-                                                value="{{Auth()->user()->name}}" required/>
+                                                value="{{Auth()->user()->name}}" required />
                                         </div>
                                     </div>
                                     <div class="row mb-3">
@@ -136,7 +136,7 @@
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             <input type="text" class="form-control" name="email"
-                                                value="{{Auth()->user()->email}}" required/>
+                                                value="{{Auth()->user()->email}}" required />
                                         </div>
                                     </div>
                                     <div class="row mb-3">
@@ -145,7 +145,7 @@
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             <input type="text" class="form-control" name="phone"
-                                                value="{{Auth()->user()->phone}}" required/>
+                                                value="{{Auth()->user()->phone}}" required />
                                         </div>
                                     </div>
                                     <div class="row mb-3">

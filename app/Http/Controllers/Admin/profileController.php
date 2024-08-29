@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\HomeBanner;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +15,8 @@ class profileController extends Controller
     use ApiResponse;
     public function index()
     {
-        return view('admin.profile');
+        $data =  HomeBanner::get();
+        return view('admin/HomeBanner/home_banners',get_defined_vars());
     }
 
     public function store(Request $request)
@@ -32,7 +34,7 @@ class profileController extends Controller
         ]);
 
         if ($validation->fails()) {
-            return $this->error($validation->errors()->first(), 200, []);
+            return $this->error($validation->errors()->first(), 400, []);
         } else {
             if ($request->hasFile('image')) {
                 $imageName = time() . '.' . $request->image->getClientOriginalExtension();
@@ -65,6 +67,6 @@ class profileController extends Controller
                 );
             }
         }
-        return $this->success([$user], 'Successfully');
+        return $this->success([$user], 'Cập nhập tài khoản thành công!!');
     }
 }
