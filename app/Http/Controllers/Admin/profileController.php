@@ -15,8 +15,8 @@ class profileController extends Controller
     use ApiResponse;
     public function index()
     {
-        $data =  HomeBanner::get();
-        return view('admin/HomeBanner/home_banners',get_defined_vars());
+        // $data =  HomeBanner::get();
+        return view('admin/profile',get_defined_vars());
     }
 
     public function store(Request $request)
