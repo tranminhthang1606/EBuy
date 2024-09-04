@@ -66,7 +66,7 @@ class homeBannerController extends Controller
                     'image' => $image_name
                 ]
             );
-            return $this->success([], 'Cập nhập tài khoản thành công!!');
+            return $this->success(['reload'=>true], 'Cập nhập tài khoản thành công!!');
         }
     }
 

@@ -63,7 +63,10 @@
                                 <td><button type="button"
                                         onclick="saveData('{{$list->id}}','{{$list->text}}','{{$list->link}}','{{$list->image}}')"
                                         class="btn btn-outline-info px-5 radius-30 " data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal">Update</button></td>
+                                        data-bs-target="#exampleModal">Update</button>
+                                    <button onclick="deleteData('{{$list->id}}','home_banners')"
+                                        class="btn btn-outline-danger px-5 radius-30 ">Delete</button>
+                                </td>
                             </tr>
                             @endforeach
 
@@ -90,7 +93,8 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form id="formSubmit" action="{{url('admin/updateHomeBanner')}}" method="POST" enctype="multipart/form-data">
+            <form id="formSubmit" action="{{url('admin/updateHomeBanner')}}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
@@ -110,6 +114,7 @@
                             <div class="col-sm-9">
                                 <input type="text" name="text" class="form-control" id="enter_text"
                                     placeholder="Enter Your Name">
+                                
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -152,12 +157,54 @@
         
         if(image == ''){
             var key_image = "{{asset('assets/images/upload.png')}}";
+            $('#photo').prop('required', true);
         }else{
             var key_image = "{{asset('images')}}/"+image+"";
-            // $('#photo').removeAttr(require);
+            $('#photo').prop('required', false);
         }
         var html = '<img src="'+key_image+'" id="imgPreview" alt="" height="200px" width="200px">';
         $('#image_key').html(html)
+    }
+
+    function deleteData(id,table){
+        let text = "Bạn có chắc muốn xoá?";
+        var loadingBtn = '<button class="btn btn-primary" type="button" disabled> <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="visually-hidden">Loading...</span></button>'
+            var submitBtn = '<input type="submit" id="submitButton" class="btn btn-primary px-4" value="Save Changes" />'
+            $('#submitButton').html(loadingBtn);
+        if(confirm(text) == true){
+            text = "Xác nhận xo";
+            $.ajax({
+                url: "{{url('admin/deleteData')}}/"+id+"/"+table,
+                type: "GET",
+                data: '',
+                cache:false,
+                contentType:false,
+                processData:false,
+                success: function(response){
+                    if(response.status == "Success"){
+                       
+                        showAlert(response.status,response.message)
+                        $('#submitButton').html(submitBtn);
+                        if(response.data.reload != undefined){
+                            console.log('hehe');
+                            
+                            window.location.href = window.location.href;
+                        }
+                    }else{
+                        showAlert(response.status,response.message)
+                        $('#submitButton').html(submitBtn);
+                    }
+                },
+                error: function(response){
+                    showAlert(response.responseJSON.status,response.responseJSON.message);
+                    $('#submitButton').html(submitBtn);
+                }
+                
+            })
+        }else{
+            text = "Huỷ xoá"
+        }
+       
     }
 </script>
 @endsection
