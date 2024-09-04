@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class HomeBanner extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'text',
+        'link',
+        'image',
+        'id',
+    ];
+
 }
