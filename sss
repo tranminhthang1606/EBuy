@@ -55,13 +55,13 @@
                             @foreach ($data as $list)
                             <tr>
                                 <td>{{$list->image}}</td>
-                                <td>{{$list->text}}</td>
-                                <td>{{$list->link}}</td>
-                                <td>{{$list->image}}</td>
+                                <td>Text</td>
+                                <td>Link</td>
+                                <td>Image</td>
                                 <td>{{$list->created_at}}</td>
                                 <td>{{$list->updated_at}}</td>
                                 <td><button type="button"
-                                        onclick="saveData('{{$list->id}}','{{$list->text}}','{{$list->link}}','{{$list->image}}')"
+                                        onclick="saveData('{{$list->id}}','text','link','image')"
                                         class="btn btn-outline-info px-5 radius-30 " data-bs-toggle="modal"
                                         data-bs-target="#exampleModal">Update</button>
                                     <button onclick="deleteData('{{$list->id}}','home_banners')"

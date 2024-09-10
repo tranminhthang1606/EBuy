@@ -2596,3 +2596,9 @@ input.search-control-2::placeholder {
 		display: none
 	}
 }
+
+.box-color{
+	height: 20px;
+	width:20px;
+	border:1px solid black
+}

@@ -4,13 +4,13 @@
     <div class="page-content">
         <!--breadcrumb-->
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3">User Profile</div>
+            <div class="breadcrumb-title pe-3">Category Attribute</div>
             <div class="ps-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0 p-0">
                         <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">User Profilep</li>
+                        <li class="breadcrumb-item active" aria-current="page">Category Attribute</li>
                     </ol>
                 </nav>
             </div>
@@ -30,12 +30,12 @@
                 </div>
             </div>
         </div>
-        <h6 class="mb-0 text-uppercase">DataTable Import</h6>
+        <h6 class="mb-0 text-uppercase">Category Attribute</h6>
 
         <hr />
         <div class="col">
-            <button type="button" class="btn btn-outline-info px-5 radius-30 " onclick="saveData('0','','','')"
-                data-bs-toggle="modal" data-bs-target="#exampleModal">Add New</button>
+            <button type="button" class="btn btn-outline-info px-5 radius-30 " onclick="saveData('0','','')"
+                data-bs-toggle="modal" data-bs-target="#exampleModal">Add New Category Attribute</button>
         </div>
         <div class="card">
             <div class="card-body">
@@ -44,27 +44,26 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Text</th>
-                                <th>Link</th>
-                                <th>Image</th>
+                                <th>Category</th>
+                                <th>Attribute</th>
                                 <th>Created At</th>
                                 <th>Updated At</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data as $list)
                             <tr>
-                                <td>{{$list->image}}</td>
-                                <td>{{$list->text}}</td>
-                                <td>{{$list->link}}</td>
-                                <td>{{$list->image}}</td>
+                                <td>{{$list->id}}</td>
+                                <td>{{$list['category']->name}}</td>
+                                <td>{{$list['attribute']->name}}</td>
                                 <td>{{$list->created_at}}</td>
                                 <td>{{$list->updated_at}}</td>
                                 <td><button type="button"
-                                        onclick="saveData('{{$list->id}}','{{$list->text}}','{{$list->link}}','{{$list->image}}')"
+                                        onclick="saveData('{{$list->id}}','{{$list->category_id}}','{{$list->attribute_id}}')"
                                         class="btn btn-outline-info px-5 radius-30 " data-bs-toggle="modal"
                                         data-bs-target="#exampleModal">Update</button>
-                                    <button onclick="deleteData('{{$list->id}}','home_banners')"
+                                    <button onclick="deleteData('{{$list->id}}','category_attribute')"
                                         class="btn btn-outline-danger px-5 radius-30 ">Delete</button>
                                 </td>
                             </tr>
@@ -74,12 +73,12 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
+                                <th>ID</th>
+                                <th>Category</th>
+                                <th>Attribute</th>
+                                <th>Created At</th>
+                                <th>Updated At</th>
+                                <th>Action</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -93,11 +92,11 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form id="formSubmit" action="{{url('admin/updateHomeBanner')}}" method="POST"
+            <form id="formSubmit" action="{{url('admin/updateCategoryAttribute')}}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Category Attribute</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -106,31 +105,40 @@
                         <div class="card-title d-flex align-items-center">
                             <div><i class="bx bxs-user me-1 font-22 text-info"></i>
                             </div>
-                            <h5 class="mb-0 text-info">User Registration</h5>
+                            <h5 class="mb-0 text-info">Category Attribute</h5>
                         </div>
                         <hr />
                         <div class="row mb-3">
-                            <label for="enter_text" class="col-sm-3 col-form-label">Text</label>
+                            <label for="enter_category_id" class="col-sm-3 col-form-label">Category
+                                Id</label>
                             <div class="col-sm-9">
-                                <input type="text" name="text" class="form-control" id="enter_text"
-                                    placeholder="Enter Your Name">
-                                
+                                <select class="form-control" name="category_id" id="category_id">
+                                    <option value="">Select Category</option>
+
+                                    @foreach ($category as $list1)
+                                    <option value="{{$list1->id}}">{{$list1->name}}</option>
+                                    @endforeach
+
+                                </select>
+
+
                             </div>
                         </div>
+
                         <div class="row mb-3">
-                            <label for="enter_link" class="col-sm-3 col-form-label">Link</label>
+                            <label for="enter_attribute_id" class="col-sm-3 col-form-label">Attribute
+                                Id</label>
                             <div class="col-sm-9">
-                                <input type="text" name="link" class="form-control" id="enter_link"
-                                    placeholder="Phone No">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="enter_image" class="col-sm-3 col-form-label">Image</label>
-                            <div class="col-sm-9">
-                                <input type="file" name="image" class="form-control" id="photo">
-                            </div>
-                            <div id="image_key">
-                                <img src="" id="imgPreview" alt="" height="200px" width="200px">
+                                <select class="form-control" name="attribute_id" id="attribute_id">
+                                    <option value="">Select Attribute</option>
+
+                                    @foreach ($attribute as $list1)
+                                    <option value="{{$list1->id}}">{{$list1->name}}</option>
+                                    @endforeach
+
+                                </select>
+
+
                             </div>
                         </div>
 
@@ -150,20 +158,12 @@
 </div>
 
 <script>
-    function saveData(id, text, link, image) {
+    function saveData(id, category_id,attribute_id) {
+      
         $('#enter_id').val(id);
-        $('#enter_text').val(text);
-        $('#enter_link').val(link);
-        
-        if(image == ''){
-            var key_image = "{{asset('assets/images/upload.png')}}";
-            $('#photo').prop('required', true);
-        }else{
-            var key_image = "{{asset('images')}}/"+image+"";
-            $('#photo').prop('required', false);
-        }
-        var html = '<img src="'+key_image+'" id="imgPreview" alt="" height="200px" width="200px">';
-        $('#image_key').html(html)
+        $('#category_id').val(category_id);
+        $('#attribute_id').val(attribute_id);
+       
     }
 
     function deleteData(id,table){

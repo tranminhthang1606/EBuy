@@ -4,13 +4,13 @@
     <div class="page-content">
         <!--breadcrumb-->
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3">User Profile</div>
+            <div class="breadcrumb-title pe-3">Brand</div>
             <div class="ps-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0 p-0">
                         <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">User Profilep</li>
+                        <li class="breadcrumb-item active" aria-current="page">Brand</li>
                     </ol>
                 </nav>
             </div>
@@ -30,12 +30,12 @@
                 </div>
             </div>
         </div>
-        <h6 class="mb-0 text-uppercase">DataTable Import</h6>
+        <h6 class="mb-0 text-uppercase">Brand</h6>
 
         <hr />
         <div class="col">
-            <button type="button" class="btn btn-outline-info px-5 radius-30 " onclick="saveData('0','','','')"
-                data-bs-toggle="modal" data-bs-target="#exampleModal">Add New</button>
+            <button type="button" class="btn btn-outline-info px-5 radius-30 " onclick="saveData('0','','')"
+                data-bs-toggle="modal" data-bs-target="#exampleModal">Add New Brand</button>
         </div>
         <div class="card">
             <div class="card-body">
@@ -45,26 +45,25 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Text</th>
-                                <th>Link</th>
                                 <th>Image</th>
                                 <th>Created At</th>
                                 <th>Updated At</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data as $list)
                             <tr>
-                                <td>{{$list->image}}</td>
+                                <td>{{$list->id}}</td>
                                 <td>{{$list->text}}</td>
-                                <td>{{$list->link}}</td>
-                                <td>{{$list->image}}</td>
+                                <td><img width="80px" src="{{asset('images/brands/'.$list->image)}}" alt="">{{$list->slug}}</td>
                                 <td>{{$list->created_at}}</td>
                                 <td>{{$list->updated_at}}</td>
                                 <td><button type="button"
-                                        onclick="saveData('{{$list->id}}','{{$list->text}}','{{$list->link}}','{{$list->image}}')"
+                                        onclick="saveData('{{$list->id}}','{{$list->text}}','{{$list->image}}')"
                                         class="btn btn-outline-info px-5 radius-30 " data-bs-toggle="modal"
                                         data-bs-target="#exampleModal">Update</button>
-                                    <button onclick="deleteData('{{$list->id}}','home_banners')"
+                                    <button onclick="deleteData('{{$list->id}}','categories')"
                                         class="btn btn-outline-danger px-5 radius-30 ">Delete</button>
                                 </td>
                             </tr>
@@ -74,12 +73,12 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
+                                <th>ID</th>
+                                <th>Text</th>
+                                <th>Image</th>
+                                <th>Created At</th>
+                                <th>Updated At</th>
+                                <th>Action</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -93,11 +92,10 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form id="formSubmit" action="{{url('admin/updateHomeBanner')}}" method="POST"
-                enctype="multipart/form-data">
+            <form id="formSubmit" action="{{url('admin/updateBrand')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Brand</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -106,24 +104,20 @@
                         <div class="card-title d-flex align-items-center">
                             <div><i class="bx bxs-user me-1 font-22 text-info"></i>
                             </div>
-                            <h5 class="mb-0 text-info">User Registration</h5>
+                            <h5 class="mb-0 text-info">Brand</h5>
                         </div>
                         <hr />
                         <div class="row mb-3">
                             <label for="enter_text" class="col-sm-3 col-form-label">Text</label>
                             <div class="col-sm-9">
                                 <input type="text" name="text" class="form-control" id="enter_text"
-                                    placeholder="Enter Your Name">
-                                
+                                    placeholder="Enter Your Txt">
+
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <label for="enter_link" class="col-sm-3 col-form-label">Link</label>
-                            <div class="col-sm-9">
-                                <input type="text" name="link" class="form-control" id="enter_link"
-                                    placeholder="Phone No">
-                            </div>
-                        </div>
+
+
+
                         <div class="row mb-3">
                             <label for="enter_image" class="col-sm-3 col-form-label">Image</label>
                             <div class="col-sm-9">
@@ -150,11 +144,12 @@
 </div>
 
 <script>
-    function saveData(id, text, link, image) {
+    var checkId=0;
+    function saveData(id, text, image) {
+      
         $('#enter_id').val(id);
         $('#enter_text').val(text);
-        $('#enter_link').val(link);
-        
+
         if(image == ''){
             var key_image = "{{asset('assets/images/upload.png')}}";
             $('#photo').prop('required', true);

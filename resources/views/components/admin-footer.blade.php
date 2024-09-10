@@ -52,6 +52,11 @@
                        
                         showAlert(response.status,response.message)
                         $('#submitButton').html(submitBtn);
+                        if(response.data.reload != undefined){
+                            console.log('hehe');
+                            
+                            window.location.href = window.location.href;
+                        }
                     }else{
                         showAlert(response.status,response.message)
                         $('#submitButton').html(submitBtn);
