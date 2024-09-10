@@ -70,6 +70,34 @@
             </ul>
         </li>
 
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class='bx bx-cart'></i>
+                </div>
+                <div class="menu-title">Brand</div>
+            </a>
+            <ul>
+                <li> <a href="{{url('admin/brand')}}"><i class="bx bx-right-arrow-alt"></i>Brand</a>
+                </li>
+                
+                
+            </ul>
+        </li>
+
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class='bx bx-cart'></i>
+                </div>
+                <div class="menu-title">Tax</div>
+            </a>
+            <ul>
+                <li> <a href="{{url('admin/tax')}}"><i class="bx bx-right-arrow-alt"></i>Tax</a>
+                </li>
+                
+                
+            </ul>
+        </li>
+
         <li class="menu-label">Pages</li>
 
         <li>

@@ -20,7 +20,7 @@ trait SaveFile
             $image_name = time() . '.' . $file->extension();
             $file->move(public_path('images/'), $image_name);
         }else{
-            $image_name = $path.''.time() . '.' . $file->extension();
+            $image_name = $table.time() . '.' . $file->extension();
             $file->move(public_path(''.$path.''), $image_name);
         }
 

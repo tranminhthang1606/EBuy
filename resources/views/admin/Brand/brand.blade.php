@@ -4,13 +4,13 @@
     <div class="page-content">
         <!--breadcrumb-->
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3">Category</div>
+            <div class="breadcrumb-title pe-3">Brand</div>
             <div class="ps-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0 p-0">
                         <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Category</li>
+                        <li class="breadcrumb-item active" aria-current="page">Brand</li>
                     </ol>
                 </nav>
             </div>
@@ -30,12 +30,12 @@
                 </div>
             </div>
         </div>
-        <h6 class="mb-0 text-uppercase">Category</h6>
+        <h6 class="mb-0 text-uppercase">Brand</h6>
 
         <hr />
         <div class="col">
-            <button type="button" class="btn btn-outline-info px-5 radius-30 " onclick="saveData('0','','','','')"
-                data-bs-toggle="modal" data-bs-target="#exampleModal">Add New Category</button>
+            <button type="button" class="btn btn-outline-info px-5 radius-30 " onclick="saveData('0','','')"
+                data-bs-toggle="modal" data-bs-target="#exampleModal">Add New Brand</button>
         </div>
         <div class="card">
             <div class="card-body">
@@ -44,8 +44,8 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>Slug</th>
+                                <th>Text</th>
+                                <th>Image</th>
                                 <th>Created At</th>
                                 <th>Updated At</th>
                                 <th>Action</th>
@@ -55,12 +55,12 @@
                             @foreach ($data as $list)
                             <tr>
                                 <td>{{$list->id}}</td>
-                                <td>{{$list->name}}</td>
-                                <td>{{$list->slug}}</td>
+                                <td>{{$list->text}}</td>
+                                <td><img width="80px" src="{{asset('images/brands/'.$list->image)}}" alt="">{{$list->slug}}</td>
                                 <td>{{$list->created_at}}</td>
                                 <td>{{$list->updated_at}}</td>
                                 <td><button type="button"
-                                        onclick="saveData('{{$list->id}}','{{$list->name}}','{{$list->slug}}','{{$list->image}}','{{$list->parent_category_id}}')"
+                                        onclick="saveData('{{$list->id}}','{{$list->text}}','{{$list->image}}')"
                                         class="btn btn-outline-info px-5 radius-30 " data-bs-toggle="modal"
                                         data-bs-target="#exampleModal">Update</button>
                                     <button onclick="deleteData('{{$list->id}}','categories')"
@@ -74,8 +74,8 @@
                         <tfoot>
                             <tr>
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>Slug</th>
+                                <th>Text</th>
+                                <th>Image</th>
                                 <th>Created At</th>
                                 <th>Updated At</th>
                                 <th>Action</th>
@@ -92,10 +92,10 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form id="formSubmit" action="{{url('admin/updateCategory')}}" method="POST" enctype="multipart/form-data">
+            <form id="formSubmit" action="{{url('admin/updateBrand')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Brand</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -104,41 +104,18 @@
                         <div class="card-title d-flex align-items-center">
                             <div><i class="bx bxs-user me-1 font-22 text-info"></i>
                             </div>
-                            <h5 class="mb-0 text-info">Category</h5>
+                            <h5 class="mb-0 text-info">Brand</h5>
                         </div>
                         <hr />
                         <div class="row mb-3">
-                            <label for="enter_name" class="col-sm-3 col-form-label">Name</label>
+                            <label for="enter_text" class="col-sm-3 col-form-label">Text</label>
                             <div class="col-sm-9">
-                                <input type="text" name="name" class="form-control" id="enter_name"
-                                    placeholder="Enter Your Name">
+                                <input type="text" name="text" class="form-control" id="enter_text"
+                                    placeholder="Enter Your Txt">
 
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <label for="enter_slug" class="col-sm-3 col-form-label">Slug</label>
-                            <div class="col-sm-9">
-                                <input type="text" name="slug" class="form-control" id="enter_slug"
-                                    placeholder="Phone No">
-                            </div>
-                        </div>
 
-                        <div class="row mb-3">
-                            <label for="enter_parent_category_id" class="col-sm-3 col-form-label">Parent Category
-                                Id</label>
-                            <div class="col-sm-9">
-                                <select class="form-control" name="parent_category_id" id="parent_category_id">
-                                    <option value="">Select Parent Category</option>
-
-                                    @foreach ($data as $list1)
-                                    <option value="{{$list1->id}}">{{$list1->name}} - {{$list1->slug}}</option>
-                                    @endforeach
-
-                                </select>
-
-
-                            </div>
-                        </div>
 
 
                         <div class="row mb-3">
@@ -168,17 +145,10 @@
 
 <script>
     var checkId=0;
-    function saveData(id, name, slug, image,parent_category_id) {
-        if(checkId != 0)
-    {
-        $('#parent_category_id option[value="'+checkId+'"]').show();
-    }
-        checkId = id;
+    function saveData(id, text, image) {
+      
         $('#enter_id').val(id);
-        $('#enter_name').val(name);
-        $('#enter_slug').val(slug);
-        $('#parent_category_id').val(parent_category_id);
-        $('#parent_category_id option[value="'+id+'"]').hide();
+        $('#enter_text').val(text);
 
         if(image == ''){
             var key_image = "{{asset('assets/images/upload.png')}}";
