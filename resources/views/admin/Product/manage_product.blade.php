@@ -44,112 +44,263 @@
                         <h6 class="mb-0 text-uppercase">Horizontal Form</h6>
                         <hr />
                         <div class="card border-top border-0 border-4 border-info">
-                            <div class="card-body">
-                                <div class="border p-4 rounded">
-                                    <div class="card-title d-flex align-items-center">
-                                        <div><i class="bx bxs-user me-1 font-22 text-info"></i>
-                                        </div>
-                                        <h5 class="mb-0 text-info">User Registration</h5>
-                                    </div>
-                                    <hr />
-                                    <div class="row mb-3">
-                                        <label for="inputEnterYourName" class="col-sm-3 col-form-label">Product
-                                            Name</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" value="{{$data->name}}"
-                                                id="inputEnterYourName" placeholder="Enter Your Name">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label for="inputPhoneNo2" class="col-sm-3 col-form-label">Product Slug</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="inputPhoneNo2"
-                                                placeholder="Phone No">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label for="inputPhoneNo2" class="col-sm-3 col-form-label">Product Image</label>
-                                        <div class="col-sm-9">
-                                            <input type="file" class="form-control" id="inputPhoneNo2"
-                                                placeholder="Phone No">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label for="inputEmailAddress2" class="col-sm-3 col-form-label">Item
-                                            Code</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="inputEmailAddress2"
-                                                placeholder="Email Address">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label for="inputEmailAddress2" class="col-sm-3 col-form-label">Keywords</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="inputEmailAddress2"
-                                                placeholder="Email Address">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label for="inputChoosePassword2"
-                                            class="col-sm-3 col-form-label">Description</label>
-                                        <div class="col-sm-9">
-                                            <textarea name="description" id="" cols="30" rows="10"
-                                                required>{{$data->description}}</textarea>
+                            <form id="formSubmit" action="{{url('admin/updateProduct')}}" method="POST">
+                                @csrf
 
-                                        </div>
-                                    </div>
 
-                                    <div class="row mb-3">
-                                        <label for="inputEmailAddress2" class="col-sm-3 col-form-label">Brand</label>
-                                        <div class="col-sm-9">
-                                            <select class="form-control" name="brand" id="">
-                                                @foreach ($brand as $brandList)
-                                                <option value="{{$brandList->id}}">{{$brandList->text}}</option>
-                                                @endforeach
-                                            </select>
+                                <div class="card-body">
+                                    <div class="border p-4 rounded">
+                                        <div class="card-title d-flex align-items-center">
+                                            <div><i class="bx bxs-user me-1 font-22 text-info"></i>
+                                            </div>
+                                            <h5 class="mb-0 text-info">Product</h5>
                                         </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <label for="inputEmailAddress2" class="col-sm-3 col-form-label">Category</label>
-                                        <div class="col-sm-9">
-                                            <select class="form-control" name="category" id="category"
-                                                onchange="getAttributes()">
-                                                @foreach ($cate as $cateList)
-                                                <option value="{{$cateList->id}}">{{$cateList->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <label for="inputEmailAddress2" class="col-sm-3 col-form-label">Tax</label>
-                                        <div class="col-sm-9">
-                                            <select class="form-control" name="tax" id="">
-                                                @foreach ($tax as $taxList)
-                                                <option value="{{$taxList->id}}">{{$taxList->text}}%</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <label for="inputAddress4" class="col-sm-3 col-form-label"></label>
-                                        <div class="col-sm-9">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="gridCheck4">
-                                                <label class="form-check-label" for="gridCheck4">Check me out</label>
+                                        <hr />
+                                        <input type="hidden" name="id" value="{{$id}}">
+                                        <div class="row mb-3">
+                                            <label for="inputEnterYourName" class="col-sm-3 col-form-label">Product
+                                                Name</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" name="name"
+                                                    value="{{$data->name}}" id="inputEnterYourName"
+                                                    placeholder="Enter Your Name">
                                             </div>
                                         </div>
+                                        <div class="row mb-3">
+                                            <label for="inputPhoneNo2" class="col-sm-3 col-form-label">Product
+                                                Slug</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="inputPhoneNo2" name="slug"
+                                                    value="{{$data->slug}}" placeholder="Slug">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label for="inputPhoneNo2" class="col-sm-3 col-form-label">Product
+                                                Image</label>
+                                            <div class="col-sm-9">
+                                                <input type="file" class="form-control" name="image" id="inputPhoneNo2"
+                                                    placeholder="Phone No">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label for="inputEmailAddress2" class="col-sm-3 col-form-label">Item
+                                                Code</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" value="{{$data->item_code}}"
+                                                    name="item_code" id="inputEmailAddress2"
+                                                    placeholder="Email Address">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label for="inputEmailAddress2"
+                                                class="col-sm-3 col-form-label">Keywords</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" value="{{$data->keywords}}"
+                                                    name="keywords" id="inputEmailAddress2" placeholder="Email Address">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="inputEmailAddress2"
+                                                class="col-sm-3 col-form-label">Category</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" name="category_id" id="category_id"
+                                                    onchange="getAttributes()">
+                                                    @foreach ($cate as $cateList)
+                                                    @if ($data->category_id == $cateList->id)
+                                                    <option selected value="{{$cateList->id}}">{{$cateList->name}}
+                                                    </option>
+
+
+                                                    @else
+                                                    <option value="{{$cateList->id}}">{{$cateList->name}}</option>
+                                                    @endif
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="inputEmailAddress2"
+                                                class="col-sm-3 col-form-label">Brand</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" name="brand_id" id="brand_id">
+                                                    @foreach ($brand as $brandList)
+                                                    @if ($data->brand_id == $brandList->id)
+                                                    <option selected value="{{$brandList->id}}">{{$brandList->text}}
+                                                    </option>
+
+
+                                                    @else
+                                                    <option value="{{$brandList->id}}">{{$brandList->text}}</option>
+                                                    @endif
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="inputEmailAddress2" class="col-sm-3 col-form-label">Tax</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" name="tax_id" id="tax_id">
+                                                    @foreach ($tax as $taxList)
+                                                    @if ($data->tax_id == $taxList->id)
+                                                    <option selected value="{{$taxList->id}}">{{$taxList->text}}%
+                                                    </option>
+
+
+                                                    @else
+                                                    <option value="{{$taxList->id}}">{{$taxList->text}}%</option>
+                                                    @endif
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="inputEmailAddress2"
+                                                class="col-sm-3 col-form-label">Attribute</label>
+                                            <div class="col-sm-9">
+                                                <span id="multiAttr"></span>
+                                            </div>
+                                        </div>
+
+
+
+
+
+                                        <div class="row mb-3">
+                                            <label for="inputChoosePassword2"
+                                                class="col-sm-3 col-form-label">Description</label>
+                                            <div class="col-sm-9">
+                                                <textarea name="description" id="" cols="30" rows="10"
+                                                    required>{{$data->description}}</textarea>
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row mb-3">
+                                            <label for="inputChoosePassword2" class="col-sm-3 col-form-label">Product
+                                                Attributes</label>
+
+                                            <div class="row col-sm-9">
+                                                <div class="row col-sm-3 mb-3">
+                                                    <button type="button" id="addAttributeButton"
+                                                        class="btn-info btn">Add
+                                                        Attribute</button>
+                                                </div>
+
+                                                @php
+                                                $count = 1;
+                                                $imageCount = rand(111,999);
+                                                @endphp
+                                                <div id="addAttr" class="row">
+                                                    <div id="addAttr_{{$count}}" class="row mb-3">
+                                                        <div class="col-sm-3">
+                                                            <select class="form-control" name="color_id[]"
+                                                                id="color_id">
+                                                                @foreach ($color as $colorList)
+                                                                <option style="background-color:{{$colorList->value}}"
+                                                                    value="{{$colorList->id}}">{{$colorList->text}}
+                                                                </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-sm-3">
+                                                            <select class="form-control" name="size_id[]" id="size_id">
+                                                                @foreach ($size as $sizeList)
+                                                                <option value="{{$sizeList->id}}">{{$sizeList->text}}
+                                                                </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-sm-3">
+                                                            <input type="text" name="sku[]" class="form-control"
+                                                                placeholder="Enter SKU">
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <input type="text" name="mrp[]" class="form-control"
+                                                                placeholder="Enter MRP">
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <input type="text" name="price[]" class="form-control"
+                                                                placeholder="Enter Price">
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <input type="text" name="length[]" class="form-control"
+                                                                placeholder="Enter Length">
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <input type="text" name="breadth[]" class="form-control"
+                                                                placeholder="Enter Breadth">
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <input type="text" name="height[]" class="form-control"
+                                                                placeholder="Enter Height">
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <input type="text" name="weight[]" class="form-control"
+                                                                placeholder="Enter Weight">
+                                                        </div>
+
+                                                        <div class="row mb-3">
+                                                            <label for="inputChoosePassword2"
+                                                                class="col-sm-3 col-form-label">Product
+                                                                Images</label>
+
+                                                            <div class="row col-sm-9">
+                                                                <input type="hidden" name="imageValue[]" value="{{$count}}">
+                                                                <div class="col-sm-3 mb-3">
+                                                                    <button type="button"
+                                                                        onclick="addAttrImages1('attrImage_{{$count}}',{{$count}})"
+                                                                        id="addAttrImages" class="btn-info btn">Add
+                                                                        Image</button>
+                                                                </div>
+                                                                <div id="attrImage_{{$count}}">
+                                                                    <div id="attrImage_{{$imageCount}}">
+                                                                        <div class="col-sm-3 ">
+                                                                            <input type="file" name="attr_image_{{$count}}[]"
+                                                                                class="form-control" id="inputPhoneNo2"
+                                                                                placeholder="Phone No">
+                                                                        </div>
+                                                                        @if($count !=1)
+                                                                        <button type="button"
+                                                                            onclick="removeImage('addAttr_{{$imageCount}}')"
+                                                                            class="btn-danger btn">Remove</button>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+
+
+
+                                                            </div>
+                                                        </div>
+                                                        @if($count !=1)
+                                                        <button type="button" onclick="removeAttr('addAttr_{{$count}}')"
+                                                            id="addAttrImages" class="btn-danger btn">Remove
+                                                            Attribute</button>
+                                                        @endif
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
                                     </div>
+
+
                                     <div class="row">
                                         <label class="col-sm-3 col-form-label"></label>
                                         <div class="col-sm-9">
-                                            <button type="submit" class="btn btn-info px-5">Register</button>
+                                            <button type="submit" class="btn btn-info px-5">Submit</button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -157,12 +308,55 @@
         </div>
     </div>
 </div>
+</div>
+<script>
+    var imageCount = 1990;
+    function addAttrImages1(id,count){
+        imageCount++;
+        
+        var html=`<div class="mt-2" id="attrImage_${imageCount}"><div class="col-sm-3 "> <input type="file" name="attr_image_${count}[]" class="form-control" id="inputPhoneNo2" placeholder="Phone No"></div><button type="button"onclick="removeImage('attrImage_${imageCount}')"class="btn-danger btn">Remove Attribute</button></div>`;
+        
+        $('#'+id).append(html);
+    }
+    
+    function removeAttr(id){
+        $('#'+id).remove();
+    }
+
+    function removeImage(id){
+        $('#'+id).remove();
+    }
+    
+    
+    
+</script>
+<script>
+    var count = 111;
+    $('#addAttributeButton').click(function(e){
+
+        count++;
+        var html ='';
+        var sizeData = $('#size_id').html();
+        var colorData = $('#color_id').html();
+        html+=`<div id="addAttr_${count}" class="row"><div class="col-sm-3"><select class="form-control" name="color_id[]" id="color_id">'+colorData+'</select></div>`;
+        html+='<div class="col-sm-3"><select class="form-control" name="size_id[]" id="size_id">'+sizeData+'</select></div>';
+        html+='<div class="col-sm-3"><input type="text" name="sku[]" class="form-control" placeholder="Enter SKU"></div>';
+        html+='<div class="col-sm-3"><input type="text" name="mrp[]" class="form-control" placeholder="Enter MRP"></div>';
+        html+='<div class="col-sm-3"><input type="text" name="price[]" class="form-control" placeholder="Enter Price"></div>'
+        html+='<div class="col-sm-3"><input type="text" name="length[]" class="form-control" placeholder="Enter Length"></div>'
+        html+='<div class="col-sm-3"><input type="text" name="breadth[]" class="form-control" placeholder="Enter Breadth"></div>'        
+        html+='<div class="col-sm-3"><input type="text" name="height[]" class="form-control" placeholder="Enter Height"></div>'
+        html+='<div class="col-sm-3"><input type="text" name="weight[]" class="form-control" placeholder="Enter Weight"></div>'
+        html+=`<div class="row col-sm-9 mb-3"><input type="hidden" name="imageValue[]" value="${count}"><div class="col-sm-3"><button type="button" onclick="addAttrImages1('attrImage_${count}',${count})" id="addAttrImages" class="btn-info btn mb-2">Add Image</button></div><div class="mb-2" id="attrImage_${count}"><div class="col-sm-3"><input type="file" name="attr_image_${count}[]" class="form-control" id="inputPhoneNo2" placeholder="Phone No"></div></div></div>`
+        html+=`<button type="button" onclick="removeAttr('addAttr_${count}')" id="addAttrImages" class="btn-danger btn">Remove Attribute</button></div>`
+        $('#addAttr').append(html)                                        
+    })
+</script>
 
 <script>
-    function getAttributes(){
-    
-     
-        var category_id = $('#category').val();
+    function getAttributes(){  
+        var category_id = $('#category_id').val();
+        var html='';
             var url = "{{ url('admin/getAttributes') }}";
          $.ajax({
             url: url,
@@ -173,14 +367,34 @@
                 'category_id':category_id
             },
             type: 'post',
-            success: function(result) {
-                if (result.status == 200) {
+            success: function(response){
+                    if(response.status == "Success"){  
+                        console.log(response.data);
+                        
+                        
+                        html+='<select class="form-control" multiple name="attribute_id[]" id="attribute_id">'
+                        jQuery.each(response.data.data,function(key,val){
+                            console.log(val);
+                            jQuery.each(val.values,function(attrKey,attrVal){
+                                console.log(val);
+                                
+                                html+='<option value="'+attrVal.id+'">'+val.attribute.name+'-'+attrVal.value+'</option>'
+                            })
+                        })
+                        html+='</select>'
+                        $('#multiAttr').html(html);
+                        $('#attribute_id').multiSelect();
+                        showAlert(response.status,response.message)                  
+                    }else{
+                        
+                        
+                        showAlert(response.status,response.message)
+                    }
+                },
+                error: function(response){
+                    console.log('faild');
                     
-                }else{
-                    console.log(result);
-                    // alert(result.message);
-                }
-            }
+                    showAlert(response.responseJSON.status,response.responseJSON.message)                }
         });
         
        
