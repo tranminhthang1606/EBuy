@@ -56,13 +56,13 @@
                             <tr>
                                 <td>{{$list->id}}</td>
                                 <td>{{$list->name}}</td>
-                                <td><img width="80px" src="{{asset('images/products/'.$list->image)}}" alt=""></td>
+                                <td><img width="80px" src="{{asset($list->image)}}" alt=""></td>
                                 <td></td>
                                 <td>{{$list->created_at}}</td>
                                 <td>{{$list->updated_at}}</td>
                                 <td>
                                     <a href="{{url('admin/manage_product')}}/{{$list->id}}"><button type="button"
-                                        onclick="saveData('{{$list->id}}','{{$list->name}}','{{$list->slug}}','{{$list->image}}','{{$list->parent_category_id}}')"
+                                        
                                         class="btn btn-outline-info px-5 radius-30 " data-bs-toggle="modal"
                                         data-bs-target="#exampleModal">Update</button></a>
                                     <button onclick="deleteData('{{$list->id}}','categories')"

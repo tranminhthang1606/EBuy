@@ -58,6 +58,7 @@ Route::get('/product', [ProductController::class, 'index']);
 Route::get('/manage_product/{id?}',[ProductController::class,'view_product']);
 Route::post('/updateProduct', [ProductController::class, 'store']);
 Route::post('/getAttributes', [ProductController::class, 'getAttributes']);
+Route::post('/getAttributes', [ProductController::class, 'getAttributes']);
 
 Route::get('/deleteData/{id?}/{table?}',[dashboardController::class,'deleteData']);
 

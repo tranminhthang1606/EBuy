@@ -81,6 +81,9 @@
                                                 <input type="file" class="form-control" name="image" id="inputPhoneNo2"
                                                     placeholder="Phone No">
                                             </div>
+                                            @if ($data->image !='')
+                                            <img style="width:80px" src="{{asset($data->image)}}" alt="">
+                                            @endif
                                         </div>
                                         <div class="row mb-3">
                                             <label for="inputEmailAddress2" class="col-sm-3 col-form-label">Item
@@ -161,7 +164,19 @@
                                             <label for="inputEmailAddress2"
                                                 class="col-sm-3 col-form-label">Attribute</label>
                                             <div class="col-sm-9">
-                                                <span id="multiAttr"></span>
+                                                <span id="multiAttr">
+                                                    @if (isset($data['attribute'][0]->id))
+                                                    <select class="form-control" multiple name="attribute_id[]"
+                                                        id="attribute_id">
+                                                        @foreach ($data['attribute'] as $attributeList)
+
+                                                        <option value="{{$attributeList['attribute_values']->id}}">
+                                                            {{$attributeList['attribute_values']->value}}</option>
+
+                                                        @endforeach
+                                                    </select>
+                                                    @endif
+                                                </span>
                                             </div>
                                         </div>
 
@@ -193,17 +208,30 @@
 
                                                 @php
                                                 $count = 1;
-                                                $imageCount = rand(111,999);
+                                                $imageCount = 111;
                                                 @endphp
                                                 <div id="addAttr" class="row">
+                                                    
+                                                    @foreach ($data['productAttributes'] as $productAttr )
+
+
                                                     <div id="addAttr_{{$count}}" class="row mb-3">
+                                                        <input type="hidden" name="productAttrId[]"
+                                                            value="{{$productAttr->id}}">
                                                         <div class="col-sm-3">
                                                             <select class="form-control" name="color_id[]"
                                                                 id="color_id">
                                                                 @foreach ($color as $colorList)
+                                                                @if($productAttr->color_id == $colorList->id)
+                                                                <option selected
+                                                                    style="background-color:{{$colorList->value}}"
+                                                                    value="{{$colorList->id}}">{{$colorList->text}}
+                                                                </option>
+                                                                @else
                                                                 <option style="background-color:{{$colorList->value}}"
                                                                     value="{{$colorList->id}}">{{$colorList->text}}
                                                                 </option>
+                                                                @endif
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -211,38 +239,52 @@
                                                         <div class="col-sm-3">
                                                             <select class="form-control" name="size_id[]" id="size_id">
                                                                 @foreach ($size as $sizeList)
+                                                                @if ($productAttr->size_id == $sizeList->id)
+                                                                <option selected value="{{$sizeList->id}}">
+                                                                    {{$sizeList->text}}
+                                                                </option>
+                                                                @else
                                                                 <option value="{{$sizeList->id}}">{{$sizeList->text}}
                                                                 </option>
+                                                                @endif
+
                                                                 @endforeach
                                                             </select>
                                                         </div>
 
                                                         <div class="col-sm-3">
-                                                            <input type="text" name="sku[]" class="form-control"
+                                                            <input type="text" name="sku[]"
+                                                                value="{{$productAttr->sku}}" class="form-control"
                                                                 placeholder="Enter SKU">
                                                         </div>
                                                         <div class="col-sm-3">
-                                                            <input type="text" name="mrp[]" class="form-control"
+                                                            <input type="text" name="mrp[]"
+                                                                value="{{$productAttr->mrp}}" class="form-control"
                                                                 placeholder="Enter MRP">
                                                         </div>
                                                         <div class="col-sm-3">
-                                                            <input type="text" name="price[]" class="form-control"
+                                                            <input type="text" name="price[]"
+                                                                value="{{$productAttr->price}}" class="form-control"
                                                                 placeholder="Enter Price">
                                                         </div>
                                                         <div class="col-sm-3">
-                                                            <input type="text" name="length[]" class="form-control"
+                                                            <input type="text" name="length[]"
+                                                                value="{{$productAttr->length}}" class="form-control"
                                                                 placeholder="Enter Length">
                                                         </div>
                                                         <div class="col-sm-3">
-                                                            <input type="text" name="breadth[]" class="form-control"
+                                                            <input type="text" name="breadth[]"
+                                                                value="{{$productAttr->breadth}}" class="form-control"
                                                                 placeholder="Enter Breadth">
                                                         </div>
                                                         <div class="col-sm-3">
-                                                            <input type="text" name="height[]" class="form-control"
+                                                            <input type="text" name="height[]"
+                                                                value="{{$productAttr->height}}" class="form-control"
                                                                 placeholder="Enter Height">
                                                         </div>
                                                         <div class="col-sm-3">
-                                                            <input type="text" name="weight[]" class="form-control"
+                                                            <input type="text" name="weight[]"
+                                                                value="{{$productAttr->weight}}" class="form-control"
                                                                 placeholder="Enter Weight">
                                                         </div>
 
@@ -252,7 +294,8 @@
                                                                 Images</label>
 
                                                             <div class="row col-sm-9">
-                                                                <input type="hidden" name="imageValue[]" value="{{$count}}">
+                                                                <input type="hidden" name="imageValue[]"
+                                                                    value="{{$count}}">
                                                                 <div class="col-sm-3 mb-3">
                                                                     <button type="button"
                                                                         onclick="addAttrImages1('attrImage_{{$count}}',{{$count}})"
@@ -260,18 +303,30 @@
                                                                         Image</button>
                                                                 </div>
                                                                 <div id="attrImage_{{$count}}">
+                                                                    @foreach ($productAttr['images'] as $productAttrImages)
                                                                     <div id="attrImage_{{$imageCount}}">
                                                                         <div class="col-sm-3 ">
-                                                                            <input type="file" name="attr_image_{{$count}}[]"
+                                                                            <input type="file"
+                                                                                name="attr_image_{{$count}}[]"
                                                                                 class="form-control" id="inputPhoneNo2"
                                                                                 placeholder="Phone No">
                                                                         </div>
-                                                                        @if($count !=1)
+                                                                        @if ($productAttrImages->image !='')
+                                                                        <img style="width:80px"
+                                                                            src="{{asset($productAttrImages->image)}}"
+                                                                            alt="">
+                                                                        @endif
+                                                                        @if($imageCount !=111)
                                                                         <button type="button"
-                                                                            onclick="removeImage('addAttr_{{$imageCount}}')"
+                                                                            onclick="removeAttr('addAttr_{{$imageCount}}',{{$productAttrImages->id}},'image')"
                                                                             class="btn-danger btn">Remove</button>
                                                                         @endif
                                                                     </div>
+                                                                    <?php
+                                                                    $imageCount++;      
+                                                                    ?>
+
+                                                                    @endforeach
                                                                 </div>
 
 
@@ -279,11 +334,19 @@
                                                             </div>
                                                         </div>
                                                         @if($count !=1)
-                                                        <button type="button" onclick="removeAttr('addAttr_{{$count}}')"
+                                                        <button type="button"
+                                                            onclick="removeAttr('addAttr_{{$count}}',{{$productAttr->id}},'product_attrs')"
                                                             id="addAttrImages" class="btn-danger btn">Remove
                                                             Attribute</button>
                                                         @endif
                                                     </div>
+                                                    <?php
+                                                        $count++;
+                                                        $imageCount++;
+                                                    ?>
+
+
+                                                    @endforeach
                                                 </div>
 
                                             </div>
@@ -319,12 +382,43 @@
         $('#'+id).append(html);
     }
     
-    function removeAttr(id){
+    function removeAttr(id,attrId='',type){
         $('#'+id).remove();
+        if(type!=''){
+            removeAttrId(attrId,type);
+        }
     }
 
     function removeImage(id){
         $('#'+id).remove();
+    }
+
+    function removeAttrId(id,type){
+       
+        var url = "{{ url('admin/removeAttrId') }}";
+         $.ajax({
+            url: url,
+            headers:{
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            data: {
+                'id':id,
+                'type':type
+            },
+            type: 'post',
+            success: function(response){
+                    if(response.status == "Success"){  
+                                       
+                    }else{
+
+                        showAlert(response.status,response.message)
+                    }
+                },
+                error: function(response){
+                    console.log('faild');
+                    
+                    showAlert(response.responseJSON.status,response.responseJSON.message)                }
+        });
     }
     
     
@@ -338,7 +432,7 @@
         var html ='';
         var sizeData = $('#size_id').html();
         var colorData = $('#color_id').html();
-        html+=`<div id="addAttr_${count}" class="row"><div class="col-sm-3"><select class="form-control" name="color_id[]" id="color_id">'+colorData+'</select></div>`;
+        html+=`<div id="addAttr_${count}" class="row"><input type="hidden" name="productAttrId" value="0"><div class="col-sm-3"><select class="form-control" name="color_id[]" id="color_id">${colorData}</select></div>`;
         html+='<div class="col-sm-3"><select class="form-control" name="size_id[]" id="size_id">'+sizeData+'</select></div>';
         html+='<div class="col-sm-3"><input type="text" name="sku[]" class="form-control" placeholder="Enter SKU"></div>';
         html+='<div class="col-sm-3"><input type="text" name="mrp[]" class="form-control" placeholder="Enter MRP"></div>';

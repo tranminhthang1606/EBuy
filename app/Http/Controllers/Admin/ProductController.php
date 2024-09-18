@@ -34,15 +34,15 @@ class ProductController extends Controller
 
     public function view_product($id = 0)
     {
+        $brand = Brand::get();
+        $cate = Category::get();
+        $color = Color::get();
+        $size = Size::get();
+        $tax = Tax::get();
         if ($id == 0) {
             $data = new Product();
             $product_attr = new ProductAttr();
             $product_attr_images = new ProductAttrImages();
-            $brand = Brand::get();
-            $cate = Category::get();
-            $color = Color::get();
-            $size = Size::get();
-            $tax = Tax::get();
         } else {
             $data['id'] = $id;
             $validation = Validator::make($data, [
@@ -53,7 +53,7 @@ class ProductController extends Controller
             if ($validation->fails()) {
                 return redirect()->back();
             } else {
-                $data = Product::where('id', $id)->first();
+                $data = Product::where('id', $id)->with('attribute', 'productAttributes')->first();
             }
         }
         return view('admin/Product/manage_product', get_defined_vars());
@@ -76,7 +76,7 @@ class ProductController extends Controller
                 'name'    => 'required|string|max:255',
                 'slug' => 'required|string|max:255',
                 'image'   => 'mimes:jpeg,png,jpg,gif|max:5120',
-                'category_id' => 'required|exists:categories,id',
+                
                 'id' => 'required',
                 // 'user_id' => 'required|exists:users,id'
             ]);
@@ -129,15 +129,14 @@ class ProductController extends Controller
                     );
                 }
 
-                $attrImage = [];
-                foreach ($request->imageValue as $key => $value) {
-                    array_push($attrImage, $val);
-                }
 
+
+
+                $productNewAttrId = [];
                 foreach ($request->sku as $key => $value) {
 
                     $productAttrId = ProductAttribute::updateOrCreate(
-                        ['id' => '0'],
+                        ['id' => $request->productAttrId[$key]],
                         [
                             'product_id' => $productId,
                             'color_id' => $request->color_id[$key],
@@ -152,52 +151,33 @@ class ProductController extends Controller
                         ]
                     );
 
-                    $productAttrId=$productAttrId->id;
-                    $imageVal = 'attr_image_' . $request->imageValue[$key];
-                    foreach ($request->$imageVal as $key => $val) {
+                    $productAttrId = $productAttrId->id;
 
-                        $imageName = time() . '.' . $val->extension();
-                        $val->move(public_path('images/productsAttr/'), $imageName);
-                        ProductAttrImages::where(['product_id'=>$productId,'product_attr_id'=>$productAttrId])->delete();
-                        ProductAttrImages::updateOrCreate(
-                            ['product_id' => $productId, 'product_attr_id' => $productAttrId, 'image' => $imageName],
-                            
-                        );
+                    // array_push($attrImage, $val);
+                    $imageVal = 'attr_image_' . $request->imageValue[$key];
+
+                    if ($request->imageVal) {
+                        foreach ($request->$imageVal as $key => $val) {
+
+                            $imageName = time() . '.' . $val->extension();
+                            $val->move(public_path('images/productsAttr/'), $imageName);
+                            ProductAttrImages::updateOrCreate(
+                                ['product_id' => $productId, 'product_attr_id' => $productAttrId, 'image' => $imageName],
+                            );
+                        }
                     }
+
+                    // array_push($productNewAttrId, $productAttrId);
+                    ProductAttrImages::where(['product_id' => $productId, 'product_attr_id' => $productNewAttrId[$key]])->delete();
                 }
 
-                // if ($request->id > 0) {
-                //     $image = Product::find($request->id);
-                //     $imageName = $image->image;
-                //     $imageName = $this->saveImage($request->image, $imageName, 'images/products');
-                // } else {
-                //     $imageName = $this->saveImage($request->image, '', 'images/products');
-                // }
+                $attrImage = [];
 
 
-                // if ($request->parent_category_id != 0) {
-                //     Product::updateOrCreate(
-                //         ['id' => $request->id],
-                //         [
-                //             'name' => $request->name,
-                //             'slug' => $request->slug,
-                //             'image' => $imageName,
-                //             'parent_category_id' => $request->parent_category_id
-                //         ]
-                //     );
-                // } else {
-                //     Product::updateOrCreate(
-                //         ['id' => $request->id],
-                //         [
-                //             'name' => $request->name,
-                //             'slug' => $request->slug,
-                //             'image' => $imageName,
-                //         ]
-                //     );
-                // }
                 DB::commit(); //process end
-                echo "No Error occurs";
-                return $this->success(['reload' => true], 'Đã cập nhập Cate thành công!!');
+                return redirect()->back();
+                // echo "No Error occurs";
+                // return $this->success(['reload' => true], 'Đã cập nhập Cate thành công!!');
             }
         } catch (\Throwable $th) {
             //throw $th;
@@ -208,6 +188,9 @@ class ProductController extends Controller
         prx($request->all());
     }
 
-
-    
+    public function removeAttrId(Request $request){
+        $type = $request->type;
+        DB::table($request->type)->where('id',$request->id)->delete();
+        return $this->success(['status'=>'success'],'Cập nhập thành công');
+    }
 }
