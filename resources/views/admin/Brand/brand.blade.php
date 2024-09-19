@@ -154,7 +154,7 @@
             var key_image = "{{asset('assets/images/upload.png')}}";
             $('#photo').prop('required', true);
         }else{
-            var key_image = "{{asset('images')}}/"+image+"";
+            var key_image = image;
             $('#photo').prop('required', false);
         }
         var html = '<img src="'+key_image+'" id="imgPreview" alt="" height="200px" width="200px">';

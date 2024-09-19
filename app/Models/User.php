@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use URL;
+use Illuminate\Support\Facades\URL;
 
 class User extends Authenticatable
 {
@@ -65,5 +65,12 @@ class User extends Authenticatable
             }
         }
         return false;
+    }
+
+    protected function Image(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => URL::to('storage/'.$value.'')
+        );
     }
 }
