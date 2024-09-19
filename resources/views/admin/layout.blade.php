@@ -390,7 +390,7 @@
                     <div class="user-box dropdown">
                         <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#"
                             role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{asset('storage/'.Auth()->user()->image)}}" class="user-img" alt="user avatar">
+                            <img src="{{asset(Auth()->user()->image)}}" class="user-img" alt="user avatar">
                             <div class="user-info ps-3">
                                 <p class="user-name mb-0">{{Auth::user()->name}}</p>
                                 <p class="designattion mb-0">Web Designer</p>

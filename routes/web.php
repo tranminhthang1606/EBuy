@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// Route::get('/', function () {
-//     return view('admin.index');
-// });
+Route::get('/', function () {
+    return view('index');
+});
 
 // Route::get('/createAdmin', [AuthController::class, 'createAdmin']);
 // Route::get('/createRole', function () {
@@ -28,16 +28,18 @@ use Illuminate\Support\Facades\Auth;
 //     $role->save();
 // });
 
+
+
 Route::get('/login', function () {
     return view('auth.signIn');
 });
-Route::get('/', function () {
-    if (Auth::user()) {
-        return redirect('/admin/dashboard');
-    } else {
-        return redirect('/login');
-    };
-});
+// Route::get('/admin', function () {
+//     if (Auth::user()) {
+//         return redirect('/admin/dashboard');
+//     } else {
+//         return redirect('/login');
+//     };
+// });
 Route::post('/login_user', [AuthUserController::class, 'loginUser']);
 Route::get('/logout', function () {
     Auth::logout();

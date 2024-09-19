@@ -1,7 +1,7 @@
 <div class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">
         <div>
-            <img src="{{asset('storage/'.Auth()->user()->image)}}" class="logo-icon" alt="logo icon">
+            <img src="{{asset(Auth()->user()->image)}}" class="logo-icon" alt="logo icon">
         </div>
         <div>
             <h4 class="logo-text">Rocker</h4>
@@ -19,6 +19,22 @@
             </a>
         </li>
         <li class="menu-label">Home</li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class='bx bx-cart'></i>
+                </div>
+                <div class="menu-title">Product</div>
+            </a>
+            <ul>
+                <li> <a href="{{url('admin/product')}}"><i class="bx bx-right-arrow-alt"></i>Product</a>
+                </li>
+                {{-- <li> <a href="{{url('admin/category_attribute')}}"><i class="bx bx-right-arrow-alt"></i>Category Attribute</a>
+                </li> --}}
+            </ul>
+        </li>
+        
+        
+        
         <li>
             <a href="{{url('admin/home_banner')}}">
                 <div class="parent-icon"><i class='bx bx-cookie'></i>

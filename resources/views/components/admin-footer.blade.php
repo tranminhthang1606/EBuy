@@ -13,8 +13,33 @@
 <script src="{{asset('assets/js/index.js')}}"></script>
 <script src="https://developercodez.com/developerCorner/parsley/parsley.min.js"></script>
 <script src="{{asset('snackbar/dist/js-snackbar.js')}}"></script>
+<script src="{{asset('multiselect/jquery.multi-select.js')}}"></script>
 <!--app JS-->
 <script src="{{asset('assets/js/app.js')}}"></script>
+<script type="text/javascript">
+    $(function(){
+        $('#attribute_id').multiSelect();
+        $('#line-wrap-example').multiSelect({
+            positionMenuWithin: $('.position-menu-within')
+        });
+        $('#categories').multiSelect({
+            noneText:'All Categories',
+            presets:[
+                {
+                    name:"All Categories",
+                    all:true
+                },
+                {
+                    name:'My Categories',
+                    options:['a','c']
+                }
+            ]
+        });
+        $('#modal-example').multiSelect({
+            'modalHTML':'<div class="multi-select-modal">'
+        })
+    })
+</script>
 <script>
     $(document).ready(function () {
         $("#show_hide_password a").on('click', function (event) {

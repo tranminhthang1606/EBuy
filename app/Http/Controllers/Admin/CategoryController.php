@@ -6,11 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Attribute;
 use App\Models\Category;
 use App\Models\CategoryAttribute;
-use App\Traits\SaveFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Traits\ApiResponse;
-
+use App\Traits\SaveFile;
 
 class CategoryController extends Controller
 {

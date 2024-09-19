@@ -5,6 +5,8 @@
     <!--favicon-->
     <link rel="icon" href="{{asset('assets/images/favicon-32x32')}}" type="image/png" />
     <!--plugins-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
     <link href="{{asset('assets/plugins/vectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet" />
     <link href="{{asset('assets/plugins/simplebar/css/simplebar.css')}}" rel="stylesheet" />
     <link href="{{asset('assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css')}}" rel="stylesheet" />
@@ -25,5 +27,6 @@
     <link rel="stylesheet" href="{{asset('assets/css/header-colors.css')}}" />
     <link rel="stylesheet" href="https://developercodez.com/developerCorner/parsley/parsley.css" >
     <link rel="stylesheet" href="{{asset('snackbar/dist/js-snackbar.css')}}">
+    <link rel="stylesheet" href="{{asset('multiselect/multi-select.css')}}">
     <title>Rocker - Bootstrap 5 Admin Dashboard Template</title>
 </head>
