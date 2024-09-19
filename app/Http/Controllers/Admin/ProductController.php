@@ -70,13 +70,14 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+
         try {
             DB::beginTransaction();
             $validation = Validator::make($request->all(), [
                 'name'    => 'required|string|max:255',
                 'slug' => 'required|string|max:255',
                 'image'   => 'mimes:jpeg,png,jpg,gif|max:5120',
-                
+
                 'id' => 'required',
                 // 'user_id' => 'required|exists:users,id'
             ]);
@@ -92,7 +93,7 @@ class ProductController extends Controller
                             File::delete($image_path);
                         }
                     }
-                    $imageName = time() . '.' . $request->image->extension();
+                    $imageName = 'images/products/' . time() . '.' . $request->image->extension();
                     $request->image->move(public_path('images/products/'), $imageName);
                 } else if ($request->id > 0) {
                     $imageName = Product::where('id', $request->post('id'))->pluck('image')->first();
@@ -118,6 +119,9 @@ class ProductController extends Controller
 
                 ProductAttribute::where('product_id', $productId)->delete();
 
+
+
+
                 foreach ($request->attribute_id as $key => $val) {
                     ProductAttribute::updateOrCreate(
                         ['product_id' => $productId, 'category_id' => $request->category_id, 'attribute_value_id' => $val],
@@ -132,10 +136,13 @@ class ProductController extends Controller
 
 
 
+
+
+                
                 $productNewAttrId = [];
                 foreach ($request->sku as $key => $value) {
 
-                    $productAttrId = ProductAttribute::updateOrCreate(
+                    $productAttrId = ProductAttr::updateOrCreate(
                         ['id' => $request->productAttrId[$key]],
                         [
                             'product_id' => $productId,
@@ -154,10 +161,10 @@ class ProductController extends Controller
                     $productAttrId = $productAttrId->id;
 
                     // array_push($attrImage, $val);
-                    $imageVal = 'attr_image_' . $request->imageValue[$key];
+                    $imageValue = 'attr_image_' . $request->imageValue[$key];
 
-                    if ($request->imageVal) {
-                        foreach ($request->$imageVal as $key => $val) {
+                    if ($request->imageValue) {
+                        foreach ($request->$imageValue as $key => $val) {
 
                             $imageName = time() . '.' . $val->extension();
                             $val->move(public_path('images/productsAttr/'), $imageName);
@@ -167,7 +174,7 @@ class ProductController extends Controller
                         }
                     }
 
-                    // array_push($productNewAttrId, $productAttrId);
+                    array_push($productNewAttrId, $productAttrId);
                     ProductAttrImages::where(['product_id' => $productId, 'product_attr_id' => $productNewAttrId[$key]])->delete();
                 }
 
@@ -184,13 +191,12 @@ class ProductController extends Controller
             DB::rollBack(); // if error occurs rollback all database queries
             echo $th;
         }
-
-        prx($request->all());
     }
 
-    public function removeAttrId(Request $request){
+    public function removeAttrId(Request $request)
+    {
         $type = $request->type;
-        DB::table($request->type)->where('id',$request->id)->delete();
-        return $this->success(['status'=>'success'],'Cập nhập thành công');
+        DB::table($request->type)->where('id', $request->id)->delete();
+        return $this->success(['status' => 'success'], 'Cập nhập thành công');
     }
 }

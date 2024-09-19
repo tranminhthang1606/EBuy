@@ -211,7 +211,7 @@
                                                 $imageCount = 111;
                                                 @endphp
                                                 <div id="addAttr" class="row">
-                                                    
+
                                                     @foreach ($data['productAttributes'] as $productAttr )
 
 
@@ -347,6 +347,8 @@
 
 
                                                     @endforeach
+                                                    
+
                                                 </div>
 
                                             </div>
@@ -427,13 +429,11 @@
 <script>
     var count = 111;
     $('#addAttributeButton').click(function(e){
-
-        count++;
+        count++;  
         var html ='';
-        var sizeData = $('#size_id').html();
-        var colorData = $('#color_id').html();
-        html+=`<div id="addAttr_${count}" class="row"><input type="hidden" name="productAttrId" value="0"><div class="col-sm-3"><select class="form-control" name="color_id[]" id="color_id">${colorData}</select></div>`;
-        html+='<div class="col-sm-3"><select class="form-control" name="size_id[]" id="size_id">'+sizeData+'</select></div>';
+        
+        html+=`<div id="addAttr_${count}" class="row"><input type="hidden" name="productAttrId[]" value="0"><div class="col-sm-3"><select class="form-control" name="color_id[]" id="color_id">@foreach ($color as $colorList)<option style="background-color:{{$colorList->value}}" value="{{$colorList->id}}">{{$colorList->text}}</option>@endforeach</select></select></div>`;
+        html+='<div class="col-sm-3"><select class="form-control" name="size_id[]" id="size_id">@foreach ($size as $sizeList)<option value="{{$sizeList->id}}">{{$sizeList->text}}</option>@endforeach</select></div>';
         html+='<div class="col-sm-3"><input type="text" name="sku[]" class="form-control" placeholder="Enter SKU"></div>';
         html+='<div class="col-sm-3"><input type="text" name="mrp[]" class="form-control" placeholder="Enter MRP"></div>';
         html+='<div class="col-sm-3"><input type="text" name="price[]" class="form-control" placeholder="Enter Price"></div>'
@@ -443,7 +443,7 @@
         html+='<div class="col-sm-3"><input type="text" name="weight[]" class="form-control" placeholder="Enter Weight"></div>'
         html+=`<div class="row col-sm-9 mb-3"><input type="hidden" name="imageValue[]" value="${count}"><div class="col-sm-3"><button type="button" onclick="addAttrImages1('attrImage_${count}',${count})" id="addAttrImages" class="btn-info btn mb-2">Add Image</button></div><div class="mb-2" id="attrImage_${count}"><div class="col-sm-3"><input type="file" name="attr_image_${count}[]" class="form-control" id="inputPhoneNo2" placeholder="Phone No"></div></div></div>`
         html+=`<button type="button" onclick="removeAttr('addAttr_${count}')" id="addAttrImages" class="btn-danger btn">Remove Attribute</button></div>`
-        $('#addAttr').append(html)                                        
+        $('#addAttr').append(html)                                     
     })
 </script>
 
