@@ -50,12 +50,14 @@
                                     <ul class="navigation">
                                         
                                         <li v-for="item in headerCategories" :key="item.id" class="has--mega--menu">
-                                            <a href="#">{{ item.name }}</a>
+                                            <router-link :to="'/category/'+item.slug">{{ item.name }}</router-link>
                                             <ul class="mega-menu">
                                                 <li class="mega-menu-wrap">
                                                     <ul class="mega-menu-col">
                                                         <li class="mega-title"><a href="shop.html">{{ item.name }}</a></li>
-                                                        <li v-for="subItem in item.subcategories" :key="subItem.id"><a href="shop-sidebar.html">{{ subItem.name }}</a></li>
+                                                        <li v-for="subItem in item.subcategories" :key="subItem.id">
+                                                            <router-link :to="'/category/'+subItem.slug">{{ subItem.name }}</router-link>
+                                                        </li>
 
                                                     </ul>
 
@@ -347,7 +349,9 @@
         </div>
     </footer>
 
-    <div id="scripts"></div>
+    <div id="scripts">
+
+    </div>
 </template>
 
 
@@ -382,12 +386,12 @@ export default {
             'frontend_assets/js/plugins.js',
             'frontend_assets/js/main.js'
         ];
-        for (let i = 0; i < src.length; i++) {
-            const script = document.createElement('script');
-            script.src = src[i];
-            script.async = false;
-            document.getElementById('scripts').appendChild(script);
-        }
+        // for (let i = 0; i < src.length; i++) {
+        //     const script = document.createElement('script');
+        //     script.src = src[i];
+        //     script.async = false;
+        //     document.getElementById('scripts').appendChild(script);
+        // }
 
         this.getCategories();
     },

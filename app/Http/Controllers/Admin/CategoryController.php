@@ -38,6 +38,7 @@ class CategoryController extends Controller
         if ($validation->fails()) {
             return $this->error($validation->errors()->first(), 400, []);
         } else {
+            $slug = replaceStr($request->slug);
 
             if ($request->id > 0) {
                 $image = Category::find($request->id);
@@ -53,7 +54,7 @@ class CategoryController extends Controller
                     ['id' => $request->id],
                     [
                         'name' => $request->name,
-                        'slug' => $request->slug,
+                        'slug' => $slug,
                         'image' => $imageName,
                         'parent_category_id' => $request->parent_category_id
                     ]
@@ -63,7 +64,7 @@ class CategoryController extends Controller
                     ['id' => $request->id],
                     [
                         'name' => $request->name,
-                        'slug' => $request->slug,
+                        'slug' => $slug,
                         'image' => $imageName,
                     ]
                 );

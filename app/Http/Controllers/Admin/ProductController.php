@@ -85,6 +85,8 @@ class ProductController extends Controller
             if ($validation->fails()) {
                 return $this->error($validation->errors()->first(), 400, []);
             } else {
+                $slug = replaceStr($request->slug);
+
                 if ($request->hasFile('image')) {
                     if ($request->id > 0) {
                         $image = Product::where('id', $request->id)->first();
@@ -104,7 +106,7 @@ class ProductController extends Controller
                     ['id' => $request->id],
                     [
                         'name' => $request->name,
-                        'slug' => $request->slug,
+                        'slug' => $slug,
                         'image' => $imageName,
                         'category_id' => $request->category_id,
                         'brand_id' => $request->brand_id,

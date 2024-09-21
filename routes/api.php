@@ -22,3 +22,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/getHomeData',[HomePageController::class,'getHomeData']);
 Route::get('/getHeaderCategoriesData',[HomePageController::class,'getCategoriesData']);
+Route::get('/getCategoryData/{slug?}',[HomePageController::class,'getCategoryData']);

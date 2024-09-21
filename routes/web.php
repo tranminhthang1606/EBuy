@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\auth\authController as AuthUserController;
+use App\Http\Controllers\Frontend\HomePageController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('index');
 });
+
+
 
 // Route::get('/createAdmin', [AuthController::class, 'createAdmin']);
 // Route::get('/createRole', function () {
@@ -45,3 +48,7 @@ Route::get('/logout', function () {
     Auth::logout();
     return redirect('/login');
 });
+
+Route::get('/{vue_capture?}',function(){
+    return view('index');
+})->where('vue_capture','[\/\w\.-]*');
