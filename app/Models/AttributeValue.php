@@ -8,14 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class AttributeValue extends Model
 {
     use HasFactory;
-    protected $fillable = [
+
+      protected $fillable = [
         'attributes_id',
         'value',
-        'id',
+        
     ];
 
-
-    public function singleAttribute(){
-        return $this->hasOne(Attribute::class,'id','attributes_id');
+    public function singleAttribute()
+    {
+         return $this->hasOne(Attribute::class,'id','attributes_id');
     }
 }

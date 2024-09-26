@@ -8,9 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Tax extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'text',
-        'id',
+        
     ];
 }

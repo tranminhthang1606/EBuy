@@ -1,66 +1,75 @@
 <?php
 
-use App\Http\Controllers\Admin\AttributeController;
-use App\Http\Controllers\Admin\BrandController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\attributeController;
+use App\Http\Controllers\Admin\brandController;
+use App\Http\Controllers\Admin\categoryController;
+use App\Http\Controllers\Admin\colorController;
+use App\Http\Controllers\Admin\couponController;
 use App\Http\Controllers\Admin\dashboardController;
-use App\Http\Controllers\Admin\homeBannerController;
-use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\profileController;
-use App\Http\Controllers\Admin\SizeController;
-use App\Http\Controllers\Admin\TaxController;
-use App\Models\Category;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Admin\homeBannerController;
+use App\Http\Controllers\Admin\productController;
+use App\Http\Controllers\Admin\sizeController;
+use App\Http\Controllers\Admin\taxController;
 use Illuminate\Support\Facades\Route;
 
+
+
 Route::get('/dashboard', function () {
-    return view('admin.index');
+    return view('admin/index');
 });
-// Route::get('/login', function () {
-//     return view('auth.signIn');
-// });
-Route::get('/profile', [profileController::class, 'index']);
-Route::post('/saveProfile',[profileController::class, 'store']);
 
-//HomeBanner
-Route::get('/home_banner', [homeBannerController::class, 'index']);
-Route::post('/updateHomeBanner', [homeBannerController::class, 'store']);
+// Profile Section
+Route::get('/profile',[profileController::class,'index']);
+Route::post('/saveProfile',[profileController::class,'store']);
 
-//Size
-Route::get('/manage_size', [SizeController::class, 'index']);
-Route::post('/updateSize', [SizeController::class, 'store']);
+// Home Banner
+Route::get('/home_banner',[homeBannerController::class,'index']);
+Route::post('/updateHomeBanner',[homeBannerController::class,'store']);
 
-//Color
-Route::get('/manage_color', [ColorController::class, 'index']);
-Route::post('/updateColor', [ColorController::class, 'store']);
+// Size
+Route::get('/manage_size',[sizeController::class,'index']);
+Route::post('/updatesize',[sizeController::class,'store']);
 
-//Attributes
-Route::get('/attribute_name', [AttributeController::class, 'index_attribute_name']);
-Route::post('/update_attribute_name', [AttributeController::class, 'store_attribute_name']);
+// Color
+Route::get('/manage_color',[colorController::class,'index']);
+Route::post('/updatecolor',[colorController::class,'store']);
 
-Route::get('/attribute_value', [AttributeController::class, 'index_attribute_value']);
-Route::post('/update_attribute_value', [AttributeController::class, 'store_attribute_value']);
+// Attribute
+
+Route::get('/attribute_name',[attributeController::class,'index_attribute_name']);
+Route::post('/update_attribute_name',[attributeController::class,'store_attribute_name']);
+
+Route::get('/attribute_value',[attributeController::class,'index_attribute_value']);
+Route::post('/update_attribute_value',[attributeController::class,'store_attribute_value']);
+
+// Category
+Route::get('/category',[categoryController::class,'index']);
+Route::post('/update_category',[categoryController::class,'store']);
+
+Route::get('/category_attribute',[categoryController::class,'index_category_attribute']);
+Route::post('/update_category_attribute',[categoryController::class,'store_category_attribute']);
 
 
-Route::get('/category', [CategoryController::class, 'index_category_name']);
-Route::post('/updateCategory', [CategoryController::class, 'store_category_name']);
+// Brands
+Route::get('/brands',[brandController::class,'index']);
+Route::post('/updateBrand',[brandController::class,'store']);
 
-Route::get('/category_attribute', [CategoryController::class, 'index_category_attribute']);
-Route::post('/updateCategoryAttribute', [CategoryController::class, 'store_category_attribute']);
+// Tax
+Route::get('/tax',[taxController::class,'index']);
+Route::post('/updateTax',[taxController::class,'store']);
 
+// Product
+Route::get('/product',[productController::class,'index']);
+Route::get('/manage_product/{id?}',[productController::class,'view_product']);
+Route::post('/updateProduct',[productController::class,'store']);
+Route::post('/getAttributes',[productController::class,'getAttributes']);
+Route::post('/createNewAttr',[productController::class,'createNewAttr']);
+Route::post('/removeAttrId',[productController::class,'removeAttrId']);
 
-Route::get('/brand', [BrandController::class, 'index']);
-Route::post('/updateBrand', [BrandController::class, 'store']);
+// Coupon
+Route::get('/manage_coupon',[couponController::class,'index']);
+Route::post('/updatecoupon',[couponController::class,'store']);
 
-Route::get('/tax', [TaxController::class, 'index']);
-Route::post('/updateTax', [TaxController::class, 'store']);
-
-Route::get('/product', [ProductController::class, 'index']);
-Route::get('/manage_product/{id?}',[ProductController::class,'view_product']);
-Route::post('/updateProduct', [ProductController::class, 'store']);
-Route::post('/getAttributes', [ProductController::class, 'getAttributes']);
-Route::post('/getAttributes', [ProductController::class, 'getAttributes']);
-
+// Delete Data
 Route::get('/deleteData/{id?}/{table?}',[dashboardController::class,'deleteData']);
-

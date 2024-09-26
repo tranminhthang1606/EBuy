@@ -1,19 +1,19 @@
 <?php
-
+ 
 namespace App\Models;
-
+ 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Support\Facades\URL;
-
+use URL;
+ 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
+ 
     /**
      * The attributes that are mass assignable.
      *
@@ -23,14 +23,14 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
         'image',
         'address',
-        'fb_link',
-        'insta_link',
         'twitter_link',
-        'phone'
+        'fb_link',
+        'insta_link'
     ];
-
+ 
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -39,8 +39,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'email_verified_at'
     ];
-
+ 
     /**
      * The attributes that should be cast.
      *
@@ -49,15 +50,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-
-
+ 
+ 
+ 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'user_roles');
+        return $this->belongsToMany(Role::class,'user_roles');
     }
-
-    public function hasRole(...$roles)
+   
+    public function hasRole(... $roles )
     {
         foreach ($roles as $role) {
             if ($this->roles->contains('slug', $role)) {
@@ -65,12 +66,5 @@ class User extends Authenticatable
             }
         }
         return false;
-    }
-
-    protected function Image(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => URL::to('storage/'.$value.'')
-        );
     }
 }

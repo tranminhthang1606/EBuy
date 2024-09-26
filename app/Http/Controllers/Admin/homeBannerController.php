@@ -5,19 +5,20 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\HomeBanner;
 use Illuminate\Http\Request;
+use Validator;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Validator;
-use App\Traits\ApiResponse;
+ use App\Traits\ApiResponse;
+
 class homeBannerController extends Controller
 {
+    use ApiResponse;
     /**
      * Display a listing of the resource.
      */
-    use ApiResponse;
     public function index()
     {
         $data = HomeBanner::get();
-        return view('admin/HomeBanner/home_banners', get_defined_vars());
+        return view('admin/HomeBanner/home_banners',get_defined_vars());
     }
 
     /**
@@ -33,40 +34,36 @@ class homeBannerController extends Controller
      */
     public function store(Request $request)
     {
-
-        $validation = Validator::make($request->all(), [
+        
+        $validation = Validator::make($request->all(),[
             'text'    => 'required|string|max:255',
-            'image'   => 'mimes:jpeg,png,jpg,gif|max:5120', //max 5 MB
-            'link' => 'required|string|max:255',
-            'id' => 'required',
-            // 'user_id' => 'required|exists:users,id'
+            'image'   => 'mimes:jpeg,png,webp,jpg,gif|max:5120',//max 5 MB
+            'link'    => 'required|string|max:255',
+            'id'    => 'required',
         ]);
-
-        if ($validation->fails()) {
-            return $this->error($validation->errors()->first(), 400, []);
-        } else {
-            if ($request->hasFile('image')) {
-                if ($request->id > 0) {
-                    $image = HomeBanner::where('id', $request->id)->first();
-                    $image_path = "images/" . $image->image . "";
-                    if (File::exists($image_path)) {
+   
+        if($validation->fails()){
+            return $this->error($validation->errors()->first(),400,[]);
+            // return response()->json(['status'=>400,'message'=>$validation->errors()->first()]);
+        }else{
+            if($request->hasfile('image')){
+                if($request->id > 0){
+                    $image = HomeBanner::where('id',$request->id)->first();
+                    $image_path = "images/".$image->image."";
+                    if(File::exists($image_path)){
                         File::delete($image_path);
                     }
                 }
-                $image_name = time().'.'.$request->image->extension();
-                $request->image->move(public_path('images/'), $image_name);
-            } else if ($request->id > 0) {
-                $image_name = HomeBanner::where('id', $request->post('id'))->pluck('image')->first();
+                $image_name = 'images/'.$request->name.time().'.'.$request->image->extension();
+                $request->image->move(public_path('images/'),$image_name);
+            }elseif($request->id >0){
+                $image_name = HomeBanner::where('id',$request->post('id'))->pluck('image')->first();
             }
             HomeBanner::updateOrCreate(
-                ['id' => $request->id],
-                [
-                    'text' => $request->text,
-                    'link' => $request->link,
-                    'image' => $image_name
-                ]
+                ['id'=>$request->id],
+                ['text'=>$request->text,'link'=>$request->link ,'image'=>$image_name]
             );
-            return $this->success(['reload'=>true], 'Cập nhập tài khoản thành công!!');
+            return $this->success(['reload'=>true],'Successfully updated');
         }
     }
 

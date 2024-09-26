@@ -12,10 +12,10 @@ class ProductAttribute extends Model
         'product_id',
         'category_id',
         'attribute_value_id',
-        'id',
+        
     ];
-
-    public function attribute_values(){
-        return $this->hasOne(AttributeValue::class,'id','attribute_value_id');
+      public function attribute_values()
+    {
+         return $this->hasOne(AttributeValue::class,'id','attribute_value_id');
     }
 }

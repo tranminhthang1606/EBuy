@@ -1,11 +1,10 @@
 <?php
 
-use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\auth\authController as AuthUserController;
-use App\Http\Controllers\Frontend\HomePageController;
 use Illuminate\Support\Facades\Route;
-use App\Models\Role;
+use App\Http\Controllers\auth\authCotroller;
+use App\Http\Controllers\Front\HomePageController;
 use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,37 +17,29 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('index');
+  return view('index');
+    // return redirect('admin/dashboard');
 });
 
-
-
-// Route::get('/createAdmin', [AuthController::class, 'createAdmin']);
-// Route::get('/createRole', function () {
-//     $role         =  new Role();
-//     $role->name   =  'Customer';
-//     $role->slug   =  'customer';
-//     $role->save();
-// });
 
 
 
 Route::get('/login', function () {
-    return view('auth.signIn');
-});
-// Route::get('/admin', function () {
-//     if (Auth::user()) {
-//         return redirect('/admin/dashboard');
-//     } else {
-//         return redirect('/login');
-//     };
-// });
-Route::post('/login_user', [AuthUserController::class, 'loginUser']);
-Route::get('/logout', function () {
-    Auth::logout();
-    return redirect('/login');
+    return view('auth/signIn');
 });
 
-Route::get('/{vue_capture?}',function(){
+Route::get('/apiDocs', function () {
+    return view('apiDocs');
+});
+
+Route::post('/login_user',[authCotroller::class,'loginUser']);
+
+Route::get('/logout', function () {
+   Auth::logout();
+   return redirect('login');
+});
+
+
+Route::get('/{vue_capture?}', function() {
     return view('index');
-})->where('vue_capture','[\/\w\.-]*');
+})->where('vue_capture', '[\/\w\.-]*');
